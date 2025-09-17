@@ -1,0 +1,960 @@
+{
+  "created": "1758130971914",
+  "updated": "1758130971914",
+  "name": "Social Engine",
+  "description": "",
+  "tags": [],
+  "pieces": [
+    "@activepieces/piece-schedule",
+    "@activepieces/piece-google-sheets",
+    "@activepieces/piece-http",
+    "@activepieces/piece-delay",
+    "@activepieces/piece-json"
+  ],
+  "template": {
+    "displayName": "Social Engine",
+    "trigger": {
+      "name": "trigger",
+      "valid": true,
+      "displayName": "Cron Expression",
+      "type": "PIECE_TRIGGER",
+      "settings": {
+        "propertySettings": {
+          "timezone": {
+            "type": "MANUAL"
+          },
+          "cronExpression": {
+            "type": "MANUAL"
+          }
+        },
+        "pieceName": "@activepieces/piece-schedule",
+        "pieceVersion": "0.1.12",
+        "input": {
+          "timezone": "America/New_York",
+          "cronExpression": "0 9 * * *"
+        },
+        "sampleData": {},
+        "triggerName": "cron_expression"
+      },
+      "nextAction": {
+        "name": "step_7",
+        "type": "PIECE",
+        "valid": true,
+        "settings": {
+          "input": {
+            "auth": "{{connections['soxJyCZhAjKFGXhGwsUpe']}}",
+            "sheetId": 1652584937,
+            "matchCase": true,
+            "columnName": "F",
+            "searchValue": "No",
+            "startingRow": "2",
+            "numberOfRows": 1,
+            "spreadsheetId": "1FSUBxCit4sOWkoyrWQ-bDnDGgruxHL5JBKTACJH3CK8",
+            "includeTeamDrives": false
+          },
+          "pieceName": "@activepieces/piece-google-sheets",
+          "actionName": "find_rows",
+          "sampleData": {},
+          "pieceVersion": "0.12.12",
+          "propertySettings": {
+            "auth": {
+              "type": "MANUAL"
+            },
+            "sheetId": {
+              "type": "MANUAL"
+            },
+            "matchCase": {
+              "type": "MANUAL"
+            },
+            "columnName": {
+              "type": "MANUAL"
+            },
+            "searchValue": {
+              "type": "MANUAL"
+            },
+            "startingRow": {
+              "type": "MANUAL"
+            },
+            "numberOfRows": {
+              "type": "MANUAL"
+            },
+            "spreadsheetId": {
+              "type": "MANUAL"
+            },
+            "includeTeamDrives": {
+              "type": "MANUAL"
+            }
+          },
+          "errorHandlingOptions": {
+            "retryOnFailure": {
+              "value": true
+            },
+            "continueOnFailure": {
+              "value": false
+            }
+          }
+        },
+        "nextAction": {
+          "name": "step_1",
+          "skip": false,
+          "type": "PIECE",
+          "valid": true,
+          "settings": {
+            "input": {
+              "url": "https://api.moonshot.ai/v1/chat/completions",
+              "body": {
+                "data": {
+                  "model": "kimi-k2-0905-preview",
+                  "messages": [
+                    {
+                      "role": "user",
+                      "content": "You are a Content Strategist & Social Media Manager with 10+ years of experience creating content for mental health providers and wellness professionals.\n\nTask: Transform the provided content into one polished, platform-ready social media post.\n\nRules:\n\nUse therapeutic, supportive, and empowering words (safe, connect, healing, community, you’re not alone, etc.).\n\nAvoid stigmatizing, abusive, directive, minimizing, fear-based, or overly medicalized words (crazy, shame, must, doomed, disorder, etc.).\n\nVoice: warm, professional, empathetic, inclusive, and human.\n\nStructure:\n\nHook (gentle truth or relatable insight)\n\nSimplify (translate into everyday wisdom)\n\nValue (1 practical takeaway or reframe)\n\nConnection (soft question or CTA)\n\nUse line breaks for readability\n\nLength: 20–30 words (excluding hashtags & contact info).Thoughtful emoji is allowed.\n\nHashtags: up to 3 (mix niche + broad reach).\n\nAdd contact info at bottom: foxholisticare.com | 302-797-1462\n\nNever give direct advice, use “many people find…” instead of “you should…”.\n\nAdd disclaimers if needed: “This post is for general education, not medical advice.”\n\nDo not include meta-intros or explanations.\n\nOutput:\nOne ready-to-publish social media post following the above.\n\nContent to Transform:\n{{step_7[0]['values']['D']}}"
+                    }
+                  ]
+                }
+              },
+              "method": "POST",
+              "headers": {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer {{key}}"
+              },
+              "authType": "NONE",
+              "body_type": "json",
+              "use_proxy": false,
+              "authFields": {},
+              "queryParams": {},
+              "proxy_settings": {},
+              "response_is_binary": false
+            },
+            "pieceName": "@activepieces/piece-http",
+            "actionName": "send_request",
+            "sampleData": {},
+            "pieceVersion": "0.8.7",
+            "propertySettings": {
+              "url": {
+                "type": "MANUAL"
+              },
+              "body": {
+                "type": "MANUAL",
+                "schema": {
+                  "data": {
+                    "type": "JSON",
+                    "required": true,
+                    "displayName": "JSON Body"
+                  }
+                }
+              },
+              "method": {
+                "type": "MANUAL"
+              },
+              "headers": {
+                "type": "MANUAL"
+              },
+              "timeout": {
+                "type": "MANUAL"
+              },
+              "authType": {
+                "type": "MANUAL"
+              },
+              "body_type": {
+                "type": "MANUAL"
+              },
+              "use_proxy": {
+                "type": "MANUAL"
+              },
+              "authFields": {
+                "type": "MANUAL",
+                "schema": {}
+              },
+              "failureMode": {
+                "type": "MANUAL"
+              },
+              "queryParams": {
+                "type": "MANUAL"
+              },
+              "proxy_settings": {
+                "type": "MANUAL",
+                "schema": {}
+              },
+              "response_is_binary": {
+                "type": "MANUAL"
+              }
+            },
+            "errorHandlingOptions": {
+              "retryOnFailure": {
+                "value": true
+              },
+              "continueOnFailure": {
+                "value": false
+              }
+            }
+          },
+          "nextAction": {
+            "name": "step_2",
+            "skip": false,
+            "type": "PIECE",
+            "valid": true,
+            "settings": {
+              "input": {
+                "url": "https://api.moonshot.ai/v1/chat/completions",
+                "body": {
+                  "data": {
+                    "model": "kimi-k2-0905-preview",
+                    "messages": [
+                      {
+                        "role": "user",
+                        "content": "You will be provided with a social post below for a mental wellness company. Your task, as an experienced content designer and graphics designer with over 10 years of experience working with brands including therapists and mental health providers, is to provide an image prompt to be fed to an image model like nanobanana by Google or 4o image by OpenAI. Ensure the prompt accurately reflects the post story, evokes the desired emotion, and instills authenticity by incorporating person(s) when you deem fit. As you know, mental health can be a challenging and isolating experience, so let the prompt design be dynamic and ensure the prompt allows the image to be colourful and breathe life, a sense of purpose, and realism. Also, deeply review the social post content and make a critical decision whether to use it as a flier or an image with text overlay(without stating your reason in the response). Break the instruction down into a more understandable format for the LLM model to process, ensuring no mistakes are made. Add as part of the prompt that grammatical errors, missed text or information, and hallucinations are not allowed. Avoid illustrative or design with illustration. More of nature (like sea, sky, forest path, etc.) with relatable text overlay. For text overlay. Ensure they are readable and correctly written as human-readable content, especially in scenarios where nature is used as the foreground and not more than 10 to 15 words. For contact information, have it at the bottom center of the design, separate from the overlay text. All deliverables related to graphics are handled by the LLM, from sourcing design ideas to placing text overlays when needed. Consider providing a detailed prompt to an Agent as smart as you to assist with your repetitive task. Avoid making the prompt return a lonely form of design. Simple yet powerful. \n\nSome design assets include:\nPrimary color: #00a4bd\nSecondary color: #f5fafa\n\nWebsite: foxholisticare.com (center, beside the phone number)\nPhone: 302-797-1462 (center, beside the phone number)\n\nExamples of prompts: \n\n1. Create a minimalist black-and-white typographic illustration of the scene riding a bicycle using only the letters in the phrase 'Kie.ai Nano Banana'. Each letter should be creatively shaped or positioned to form the rider, the bicycle, and a sense of motion with the text.\n\n2. Create a character figure of Iron Man. Behind it, place a box with the character’s image printed on it, and a computer showing the Blender modeling process on its screen. In front of the box, add a round plastic base with the character figure standing on it. Set the scene indoors if possible.\n\n3. A single comic book panel in a gritty, noir art style with high-contrast black and white inks. In the foreground, a detective in a trench coat stands under a flickering streetlamp, rain soaking his shoulders. In the background, the neon sign of a desolate bar reflects in a puddle. A caption box at the top reads 'The city was a tough place to keep secrets.' The lighting is harsh, creating a dramatic, somber mood. Landscape.\n\n4. A high-resolution, studio-lit product photograph of a minimalist ceramic coffee mug in matte black, presented on a polished concrete surface. The lighting is a three-point softbox setup designed to create soft, diffused highlights and eliminate harsh shadows. The camera angle is a slightly elevated 45-degree shot to showcase its clean lines. Ultra-realistic, with sharp focus on the steam rising from the coffee. Square image.\n\n5. A minimalist composition featuring a single, delicate red maple leaf positioned in the bottom-right of the frame. The background is a vast, empty off-white canvas, creating significant negative space for text. Soft, diffused lighting from the top left. Square image.\n\nNotice none of the examples has an heading intro like this 'Agent brief / single-run prompt for Google NanoBanana:'.\n\n**foxholisticare.com | 302-797-1462**. CONTENT BELOW: {{step_1['body']['choices'][0]['message']['content']}}"
+                      }
+                    ]
+                  }
+                },
+                "method": "POST",
+                "headers": {
+                  "Content-Type": "application/json",
+                  "Authorization": "Bearer {{key}}"
+                },
+                "authType": "NONE",
+                "body_type": "json",
+                "use_proxy": false,
+                "authFields": {},
+                "queryParams": {},
+                "proxy_settings": {},
+                "response_is_binary": false
+              },
+              "pieceName": "@activepieces/piece-http",
+              "actionName": "send_request",
+              "sampleData": {},
+              "pieceVersion": "0.8.7",
+              "propertySettings": {
+                "url": {
+                  "type": "MANUAL"
+                },
+                "body": {
+                  "type": "MANUAL",
+                  "schema": {
+                    "data": {
+                      "type": "JSON",
+                      "required": true,
+                      "displayName": "JSON Body"
+                    }
+                  }
+                },
+                "method": {
+                  "type": "MANUAL"
+                },
+                "headers": {
+                  "type": "MANUAL"
+                },
+                "timeout": {
+                  "type": "MANUAL"
+                },
+                "authType": {
+                  "type": "MANUAL"
+                },
+                "body_type": {
+                  "type": "MANUAL"
+                },
+                "use_proxy": {
+                  "type": "MANUAL"
+                },
+                "authFields": {
+                  "type": "MANUAL",
+                  "schema": {}
+                },
+                "failureMode": {
+                  "type": "MANUAL"
+                },
+                "queryParams": {
+                  "type": "MANUAL"
+                },
+                "proxy_settings": {
+                  "type": "MANUAL",
+                  "schema": {}
+                },
+                "response_is_binary": {
+                  "type": "MANUAL"
+                }
+              },
+              "errorHandlingOptions": {
+                "retryOnFailure": {
+                  "value": true
+                },
+                "continueOnFailure": {
+                  "value": false
+                }
+              }
+            },
+            "nextAction": {
+              "name": "step_8",
+              "skip": true,
+              "type": "PIECE",
+              "valid": true,
+              "settings": {
+                "input": {
+                  "url": "https://api.kie.ai/api/v1/gpt4o-image/generate",
+                  "body": {
+                    "data": {
+                      "size": "1:1",
+                      "prompt": "{{step_2['body']['choices'][0]['message']['content']}}",
+                      "uploadCn": false,
+                      "isEnhance": false,
+                      "nVariants": 1,
+                      "fallbackModel": "FLUX_MAX",
+                      "enableFallback": false
+                    }
+                  },
+                  "method": "POST",
+                  "headers": {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer {{key}}"
+                  },
+                  "authType": "NONE",
+                  "body_type": "json",
+                  "use_proxy": false,
+                  "authFields": {},
+                  "queryParams": {},
+                  "proxy_settings": {},
+                  "response_is_binary": false
+                },
+                "pieceName": "@activepieces/piece-http",
+                "actionName": "send_request",
+                "sampleData": {},
+                "pieceVersion": "0.8.7",
+                "propertySettings": {
+                  "url": {
+                    "type": "MANUAL"
+                  },
+                  "body": {
+                    "type": "MANUAL",
+                    "schema": {
+                      "data": {
+                        "type": "JSON",
+                        "required": true,
+                        "displayName": "JSON Body"
+                      }
+                    }
+                  },
+                  "method": {
+                    "type": "MANUAL"
+                  },
+                  "headers": {
+                    "type": "MANUAL"
+                  },
+                  "timeout": {
+                    "type": "MANUAL"
+                  },
+                  "authType": {
+                    "type": "MANUAL"
+                  },
+                  "body_type": {
+                    "type": "MANUAL"
+                  },
+                  "use_proxy": {
+                    "type": "MANUAL"
+                  },
+                  "authFields": {
+                    "type": "MANUAL",
+                    "schema": {}
+                  },
+                  "failureMode": {
+                    "type": "MANUAL"
+                  },
+                  "queryParams": {
+                    "type": "MANUAL"
+                  },
+                  "proxy_settings": {
+                    "type": "MANUAL",
+                    "schema": {}
+                  },
+                  "response_is_binary": {
+                    "type": "MANUAL"
+                  }
+                },
+                "errorHandlingOptions": {
+                  "retryOnFailure": {
+                    "value": true
+                  },
+                  "continueOnFailure": {
+                    "value": false
+                  }
+                }
+              },
+              "nextAction": {
+                "name": "step_6",
+                "skip": false,
+                "type": "PIECE",
+                "valid": true,
+                "settings": {
+                  "input": {
+                    "url": "https://api.kie.ai/api/v1/jobs/createTask",
+                    "body": {
+                      "data": {
+                        "input": {
+                          "prompt": "Avoid words misspelled or typographical errors at all costs. Prompt below\n\n'{{step_2['body']['choices'][0]['message']['content']}}'",
+                          "image_size": "auto",
+                          "output_format": "png"
+                        },
+                        "model": "google/nano-banana"
+                      }
+                    },
+                    "method": "POST",
+                    "headers": {
+                      "Content-Type": "application/json",
+                      "Authorization": "Bearer {{key}}"
+                    },
+                    "authType": "NONE",
+                    "body_type": "json",
+                    "use_proxy": false,
+                    "authFields": {},
+                    "queryParams": {},
+                    "proxy_settings": {},
+                    "response_is_binary": false
+                  },
+                  "pieceName": "@activepieces/piece-http",
+                  "actionName": "send_request",
+                  "sampleData": {},
+                  "pieceVersion": "0.8.7",
+                  "propertySettings": {
+                    "url": {
+                      "type": "MANUAL"
+                    },
+                    "body": {
+                      "type": "MANUAL",
+                      "schema": {
+                        "data": {
+                          "type": "JSON",
+                          "required": true,
+                          "displayName": "JSON Body"
+                        }
+                      }
+                    },
+                    "method": {
+                      "type": "MANUAL"
+                    },
+                    "headers": {
+                      "type": "MANUAL"
+                    },
+                    "timeout": {
+                      "type": "MANUAL"
+                    },
+                    "authType": {
+                      "type": "MANUAL"
+                    },
+                    "body_type": {
+                      "type": "MANUAL"
+                    },
+                    "use_proxy": {
+                      "type": "MANUAL"
+                    },
+                    "authFields": {
+                      "type": "MANUAL",
+                      "schema": {}
+                    },
+                    "failureMode": {
+                      "type": "MANUAL"
+                    },
+                    "queryParams": {
+                      "type": "MANUAL"
+                    },
+                    "proxy_settings": {
+                      "type": "MANUAL",
+                      "schema": {}
+                    },
+                    "response_is_binary": {
+                      "type": "MANUAL"
+                    }
+                  },
+                  "errorHandlingOptions": {
+                    "retryOnFailure": {
+                      "value": true
+                    },
+                    "continueOnFailure": {
+                      "value": false
+                    }
+                  }
+                },
+                "nextAction": {
+                  "name": "step_3",
+                  "type": "PIECE",
+                  "valid": true,
+                  "settings": {
+                    "input": {
+                      "unit": "seconds",
+                      "delayFor": "45"
+                    },
+                    "pieceName": "@activepieces/piece-delay",
+                    "actionName": "delayFor",
+                    "sampleData": {},
+                    "pieceVersion": "0.3.18",
+                    "propertySettings": {
+                      "unit": {
+                        "type": "MANUAL"
+                      },
+                      "delayFor": {
+                        "type": "MANUAL"
+                      },
+                      "markdown": {
+                        "type": "MANUAL"
+                      }
+                    },
+                    "errorHandlingOptions": {
+                      "retryOnFailure": {
+                        "value": false
+                      },
+                      "continueOnFailure": {
+                        "value": false
+                      }
+                    }
+                  },
+                  "nextAction": {
+                    "name": "step_9",
+                    "skip": false,
+                    "type": "PIECE",
+                    "valid": true,
+                    "settings": {
+                      "input": {
+                        "url": "https://api.kie.ai/api/v1/jobs/recordInfo?taskId={{step_6['body']['data']['taskId']}}",
+                        "body": {},
+                        "method": "GET",
+                        "headers": {
+                          "Content-Type": "application/json",
+                          "Authorization": "Bearer {{key}}"
+                        },
+                        "authType": "NONE",
+                        "body_type": "none",
+                        "use_proxy": false,
+                        "authFields": {},
+                        "queryParams": {},
+                        "proxy_settings": {},
+                        "response_is_binary": false
+                      },
+                      "pieceName": "@activepieces/piece-http",
+                      "actionName": "send_request",
+                      "sampleData": {},
+                      "pieceVersion": "0.8.7",
+                      "propertySettings": {
+                        "url": {
+                          "type": "MANUAL"
+                        },
+                        "body": {
+                          "type": "MANUAL",
+                          "schema": {}
+                        },
+                        "method": {
+                          "type": "MANUAL"
+                        },
+                        "headers": {
+                          "type": "MANUAL"
+                        },
+                        "timeout": {
+                          "type": "MANUAL"
+                        },
+                        "authType": {
+                          "type": "MANUAL"
+                        },
+                        "body_type": {
+                          "type": "MANUAL"
+                        },
+                        "use_proxy": {
+                          "type": "MANUAL"
+                        },
+                        "authFields": {
+                          "type": "MANUAL",
+                          "schema": {}
+                        },
+                        "failureMode": {
+                          "type": "MANUAL"
+                        },
+                        "queryParams": {
+                          "type": "MANUAL"
+                        },
+                        "proxy_settings": {
+                          "type": "MANUAL",
+                          "schema": {}
+                        },
+                        "response_is_binary": {
+                          "type": "MANUAL"
+                        }
+                      },
+                      "errorHandlingOptions": {
+                        "retryOnFailure": {
+                          "value": true
+                        },
+                        "continueOnFailure": {
+                          "value": false
+                        }
+                      }
+                    },
+                    "nextAction": {
+                      "name": "step_10",
+                      "type": "PIECE",
+                      "valid": true,
+                      "settings": {
+                        "input": {
+                          "text": "{{step_9['body']['data']['resultJson']}}"
+                        },
+                        "pieceName": "@activepieces/piece-json",
+                        "actionName": "convert_text_to_json",
+                        "sampleData": {},
+                        "pieceVersion": "0.0.7",
+                        "propertySettings": {
+                          "text": {
+                            "type": "MANUAL"
+                          }
+                        },
+                        "errorHandlingOptions": {
+                          "retryOnFailure": {
+                            "value": true
+                          },
+                          "continueOnFailure": {
+                            "value": false
+                          }
+                        }
+                      },
+                      "nextAction": {
+                        "name": "step_11",
+                        "skip": false,
+                        "type": "PIECE",
+                        "valid": true,
+                        "settings": {
+                          "input": {
+                            "url": "https://getlate.dev/api/v1/posts",
+                            "body": {
+                              "data": {
+                                "content": "{{step_1['body']['choices'][0]['message']['content']}}",
+                                "isDraft": false,
+                                "timezone": "America/New_York",
+                                "platforms": [
+                                  {
+                                    "platform": "facebook",
+                                    "accountId": "68c6aa65666e6297f44768f8"
+                                  },
+                                  {
+                                    "platform": "instagram",
+                                    "accountId": "68c82957666e6297f447698f"
+                                  }
+                                ],
+                                "mediaItems": [
+                                  {
+                                    "url": "{{step_10['resultUrls'][0]}}",
+                                    "type": "image",
+                                    "filename": "{{step_9['body']['data']['taskId']}}"
+                                  }
+                                ],
+                                "publishNow": true
+                              }
+                            },
+                            "method": "POST",
+                            "headers": {
+                              "Authorization": "Bearer {{key}}"
+                            },
+                            "authType": "NONE",
+                            "body_type": "json",
+                            "use_proxy": false,
+                            "authFields": {},
+                            "queryParams": {},
+                            "proxy_settings": {},
+                            "response_is_binary": false
+                          },
+                          "pieceName": "@activepieces/piece-http",
+                          "actionName": "send_request",
+                          "sampleData": {},
+                          "pieceVersion": "0.8.7",
+                          "propertySettings": {
+                            "url": {
+                              "type": "MANUAL"
+                            },
+                            "body": {
+                              "type": "MANUAL",
+                              "schema": {
+                                "data": {
+                                  "type": "JSON",
+                                  "required": true,
+                                  "displayName": "JSON Body"
+                                }
+                              }
+                            },
+                            "method": {
+                              "type": "MANUAL"
+                            },
+                            "headers": {
+                              "type": "MANUAL"
+                            },
+                            "timeout": {
+                              "type": "MANUAL"
+                            },
+                            "authType": {
+                              "type": "MANUAL"
+                            },
+                            "body_type": {
+                              "type": "MANUAL"
+                            },
+                            "use_proxy": {
+                              "type": "MANUAL"
+                            },
+                            "authFields": {
+                              "type": "MANUAL",
+                              "schema": {}
+                            },
+                            "failureMode": {
+                              "type": "MANUAL"
+                            },
+                            "queryParams": {
+                              "type": "MANUAL"
+                            },
+                            "proxy_settings": {
+                              "type": "MANUAL",
+                              "schema": {}
+                            },
+                            "response_is_binary": {
+                              "type": "MANUAL"
+                            }
+                          },
+                          "errorHandlingOptions": {
+                            "retryOnFailure": {
+                              "value": true
+                            },
+                            "continueOnFailure": {
+                              "value": false
+                            }
+                          }
+                        },
+                        "nextAction": {
+                          "name": "step_4",
+                          "skip": false,
+                          "type": "PIECE",
+                          "valid": true,
+                          "settings": {
+                            "input": {
+                              "auth": "{{connections['soxJyCZhAjKFGXhGwsUpe']}}",
+                              "values": {
+                                "A": "{{trigger['body']['title']}}",
+                                "B": "{{step_1['body']['choices'][0]['message']['content']}}",
+                                "C": "{{step_2['body']['choices'][0]['message']['content']}}",
+                                "D": "imageURL: {{step_10['resultUrls'][0]}}",
+                                "E": "Yes",
+                                "F": "{{step_1['headers']['date']}}"
+                              },
+                              "sheetId": 1265173965,
+                              "as_string": false,
+                              "spreadsheetId": "1FSUBxCit4sOWkoyrWQ-bDnDGgruxHL5JBKTACJH3CK8",
+                              "first_row_headers": true,
+                              "includeTeamDrives": false
+                            },
+                            "pieceName": "@activepieces/piece-google-sheets",
+                            "actionName": "insert_row",
+                            "sampleData": {},
+                            "pieceVersion": "0.12.12",
+                            "propertySettings": {
+                              "auth": {
+                                "type": "MANUAL"
+                              },
+                              "values": {
+                                "type": "MANUAL",
+                                "schema": {
+                                  "A": {
+                                    "type": "SHORT_TEXT",
+                                    "required": false,
+                                    "description": "Title",
+                                    "displayName": "Title",
+                                    "defaultValue": ""
+                                  },
+                                  "B": {
+                                    "type": "SHORT_TEXT",
+                                    "required": false,
+                                    "description": "Social Post",
+                                    "displayName": "Social Post",
+                                    "defaultValue": ""
+                                  },
+                                  "C": {
+                                    "type": "SHORT_TEXT",
+                                    "required": false,
+                                    "description": "Image Prompt",
+                                    "displayName": "Image Prompt",
+                                    "defaultValue": ""
+                                  },
+                                  "D": {
+                                    "type": "SHORT_TEXT",
+                                    "required": false,
+                                    "description": "Social Image",
+                                    "displayName": "Social Image",
+                                    "defaultValue": ""
+                                  },
+                                  "E": {
+                                    "type": "SHORT_TEXT",
+                                    "required": false,
+                                    "description": "Posted",
+                                    "displayName": "Posted",
+                                    "defaultValue": ""
+                                  },
+                                  "F": {
+                                    "type": "SHORT_TEXT",
+                                    "required": false,
+                                    "description": "Posted Date",
+                                    "displayName": "Posted Date",
+                                    "defaultValue": ""
+                                  }
+                                }
+                              },
+                              "sheetId": {
+                                "type": "MANUAL"
+                              },
+                              "as_string": {
+                                "type": "MANUAL"
+                              },
+                              "spreadsheetId": {
+                                "type": "MANUAL"
+                              },
+                              "first_row_headers": {
+                                "type": "MANUAL"
+                              },
+                              "includeTeamDrives": {
+                                "type": "MANUAL"
+                              }
+                            },
+                            "errorHandlingOptions": {
+                              "retryOnFailure": {
+                                "value": true
+                              },
+                              "continueOnFailure": {
+                                "value": false
+                              }
+                            }
+                          },
+                          "nextAction": {
+                            "name": "step_5",
+                            "skip": false,
+                            "type": "PIECE",
+                            "valid": true,
+                            "settings": {
+                              "input": {
+                                "auth": "{{connections['soxJyCZhAjKFGXhGwsUpe']}}",
+                                "row_id": "{{step_7[0]['row']}}",
+                                "values": {
+                                  "F": "Yes",
+                                  "G": "{{step_1['headers']['date']}}"
+                                },
+                                "sheetId": 1652584937,
+                                "spreadsheetId": "1FSUBxCit4sOWkoyrWQ-bDnDGgruxHL5JBKTACJH3CK8",
+                                "first_row_headers": true,
+                                "includeTeamDrives": false
+                              },
+                              "pieceName": "@activepieces/piece-google-sheets",
+                              "actionName": "update_row",
+                              "sampleData": {},
+                              "pieceVersion": "0.12.12",
+                              "propertySettings": {
+                                "auth": {
+                                  "type": "MANUAL"
+                                },
+                                "row_id": {
+                                  "type": "MANUAL"
+                                },
+                                "values": {
+                                  "type": "MANUAL",
+                                  "schema": {
+                                    "A": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Publish Date",
+                                      "displayName": "Publish Date",
+                                      "defaultValue": ""
+                                    },
+                                    "B": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Title",
+                                      "displayName": "Title",
+                                      "defaultValue": ""
+                                    },
+                                    "C": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Content",
+                                      "displayName": "Content",
+                                      "defaultValue": ""
+                                    },
+                                    "D": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Summary",
+                                      "displayName": "Summary",
+                                      "defaultValue": ""
+                                    },
+                                    "E": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Source",
+                                      "displayName": "Source",
+                                      "defaultValue": ""
+                                    },
+                                    "F": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Posted",
+                                      "displayName": "Posted",
+                                      "defaultValue": ""
+                                    },
+                                    "G": {
+                                      "type": "SHORT_TEXT",
+                                      "required": false,
+                                      "description": "Posted Date",
+                                      "displayName": "Posted Date",
+                                      "defaultValue": ""
+                                    }
+                                  }
+                                },
+                                "sheetId": {
+                                  "type": "MANUAL"
+                                },
+                                "spreadsheetId": {
+                                  "type": "MANUAL"
+                                },
+                                "first_row_headers": {
+                                  "type": "MANUAL"
+                                },
+                                "includeTeamDrives": {
+                                  "type": "MANUAL"
+                                }
+                              },
+                              "errorHandlingOptions": {
+                                "retryOnFailure": {
+                                  "value": true
+                                },
+                                "continueOnFailure": {
+                                  "value": false
+                                }
+                              }
+                            },
+                            "displayName": "Update Row"
+                          },
+                          "displayName": "Insert Row Social Media Engine"
+                        },
+                        "displayName": "Late-Send HTTP request"
+                      },
+                      "displayName": "Convert Text to Json"
+                    },
+                    "displayName": "Image TaskId-Send HTTP request Kie"
+                  },
+                  "displayName": "Delay For"
+                },
+                "displayName": "Nano-Image creation-Send HTTP request Kie"
+              },
+              "displayName": "4o-Image creation-Send HTTP request Kie"
+            },
+            "displayName": "Image Prompt Social Post-Send HTTP request"
+          },
+          "displayName": "Social Post-Send HTTP request"
+        },
+        "displayName": "Find Rows Contents"
+      }
+    },
+    "valid": true,
+    "agentIds": [],
+    "connectionIds": [
+      "soxJyCZhAjKFGXhGwsUpe"
+    ],
+    "schemaVersion": "7"
+  },
+  "blogUrl": ""
+}
