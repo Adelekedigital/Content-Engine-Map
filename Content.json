@@ -1,0 +1,860 @@
+{
+  "created": "1758130320068",
+  "updated": "1758130320068",
+  "name": "Content Engine",
+  "description": "",
+  "tags": [],
+  "pieces": [
+    "@activepieces/piece-schedule",
+    "@activepieces/piece-store",
+    "@activepieces/piece-http",
+    "@activepieces/piece-math-helper",
+    "@activepieces/piece-google-sheets",
+    "@activepieces/piece-gmail"
+  ],
+  "template": {
+    "displayName": "Content Engine",
+    "trigger": {
+      "name": "trigger",
+      "valid": true,
+      "displayName": "Cron Expression",
+      "type": "PIECE_TRIGGER",
+      "settings": {
+        "propertySettings": {
+          "timezone": {
+            "type": "MANUAL"
+          },
+          "cronExpression": {
+            "type": "MANUAL"
+          }
+        },
+        "pieceName": "@activepieces/piece-schedule",
+        "pieceVersion": "0.1.12",
+        "input": {
+          "timezone": "America/New_York",
+          "cronExpression": "0 6,12,16 * * *"
+        },
+        "sampleData": {},
+        "triggerName": "cron_expression"
+      },
+      "nextAction": {
+        "name": "step_12",
+        "skip": false,
+        "type": "PIECE",
+        "valid": true,
+        "settings": {
+          "input": {
+            "key": "add",
+            "store_scope": "FLOW",
+            "defaultValue": "1"
+          },
+          "pieceName": "@activepieces/piece-store",
+          "actionName": "get",
+          "sampleData": {},
+          "pieceVersion": "0.6.8",
+          "propertySettings": {
+            "key": {
+              "type": "MANUAL"
+            },
+            "store_scope": {
+              "type": "MANUAL"
+            },
+            "defaultValue": {
+              "type": "MANUAL"
+            }
+          },
+          "errorHandlingOptions": {
+            "retryOnFailure": {
+              "value": false
+            },
+            "continueOnFailure": {
+              "value": false
+            }
+          }
+        },
+        "nextAction": {
+          "name": "step_13",
+          "skip": false,
+          "type": "ROUTER",
+          "valid": true,
+          "children": [
+            {
+              "name": "step_1",
+              "skip": false,
+              "type": "PIECE",
+              "valid": true,
+              "settings": {
+                "input": {
+                  "url": "https://s.jina.ai/?q=anxiety&hl=en&page={{step_12}}",
+                  "body": {},
+                  "method": "GET",
+                  "headers": {
+                    "Accept": "application/json",
+                    "X-Site": "https://www.talkspace.com/blog",
+                    "Authorization": "Bearer {{key}}",
+                    "X-Respond-With": "no-content"
+                  },
+                  "authType": "NONE",
+                  "body_type": "none",
+                  "use_proxy": false,
+                  "authFields": {},
+                  "queryParams": {},
+                  "proxy_settings": {},
+                  "response_is_binary": false
+                },
+                "pieceName": "@activepieces/piece-http",
+                "actionName": "send_request",
+                "sampleData": {},
+                "pieceVersion": "0.8.7",
+                "propertySettings": {
+                  "url": {
+                    "type": "MANUAL"
+                  },
+                  "body": {
+                    "type": "MANUAL",
+                    "schema": {}
+                  },
+                  "method": {
+                    "type": "MANUAL"
+                  },
+                  "headers": {
+                    "type": "MANUAL"
+                  },
+                  "timeout": {
+                    "type": "MANUAL"
+                  },
+                  "authType": {
+                    "type": "MANUAL"
+                  },
+                  "body_type": {
+                    "type": "MANUAL"
+                  },
+                  "use_proxy": {
+                    "type": "MANUAL"
+                  },
+                  "authFields": {
+                    "type": "MANUAL",
+                    "schema": {}
+                  },
+                  "failureMode": {
+                    "type": "MANUAL"
+                  },
+                  "queryParams": {
+                    "type": "MANUAL"
+                  },
+                  "proxy_settings": {
+                    "type": "MANUAL",
+                    "schema": {}
+                  },
+                  "response_is_binary": {
+                    "type": "MANUAL"
+                  }
+                },
+                "errorHandlingOptions": {
+                  "retryOnFailure": {
+                    "value": false
+                  },
+                  "continueOnFailure": {
+                    "value": false
+                  }
+                }
+              },
+              "nextAction": {
+                "name": "step_5",
+                "skip": false,
+                "type": "PIECE",
+                "valid": true,
+                "settings": {
+                  "input": {
+                    "first_number": "1",
+                    "second_number": "{{step_12}}"
+                  },
+                  "pieceName": "@activepieces/piece-math-helper",
+                  "actionName": "addition_math",
+                  "sampleData": {},
+                  "pieceVersion": "0.0.17",
+                  "propertySettings": {
+                    "first_number": {
+                      "type": "MANUAL"
+                    },
+                    "second_number": {
+                      "type": "MANUAL"
+                    }
+                  },
+                  "errorHandlingOptions": {
+                    "retryOnFailure": {
+                      "value": false
+                    },
+                    "continueOnFailure": {
+                      "value": false
+                    }
+                  }
+                },
+                "nextAction": {
+                  "name": "step_11",
+                  "skip": false,
+                  "type": "PIECE",
+                  "valid": true,
+                  "settings": {
+                    "input": {
+                      "key": "add",
+                      "value": "{{step_5}}",
+                      "store_scope": "FLOW"
+                    },
+                    "pieceName": "@activepieces/piece-store",
+                    "actionName": "put",
+                    "sampleData": {},
+                    "pieceVersion": "0.6.8",
+                    "propertySettings": {
+                      "key": {
+                        "type": "MANUAL"
+                      },
+                      "value": {
+                        "type": "MANUAL"
+                      },
+                      "store_scope": {
+                        "type": "MANUAL"
+                      }
+                    },
+                    "errorHandlingOptions": {
+                      "retryOnFailure": {
+                        "value": false
+                      },
+                      "continueOnFailure": {
+                        "value": false
+                      }
+                    }
+                  },
+                  "nextAction": {
+                    "name": "step_2",
+                    "skip": false,
+                    "type": "LOOP_ON_ITEMS",
+                    "valid": true,
+                    "settings": {
+                      "items": "{{step_1['body']['data']}}",
+                      "sampleData": {}
+                    },
+                    "displayName": "Loop on Source Items",
+                    "firstLoopAction": {
+                      "name": "step_6",
+                      "skip": false,
+                      "type": "PIECE",
+                      "valid": true,
+                      "settings": {
+                        "input": {
+                          "auth": "{{connections['soxJyCZhAjKFGXhGwsUpe']}}",
+                          "sheetId": 1652584937,
+                          "matchCase": true,
+                          "columnName": "B",
+                          "searchValue": "{{step_2['item']['title']}}",
+                          "startingRow": "2",
+                          "numberOfRows": 1,
+                          "spreadsheetId": "1FSUBxCit4sOWkoyrWQ-bDnDGgruxHL5JBKTACJH3CK8",
+                          "includeTeamDrives": false
+                        },
+                        "pieceName": "@activepieces/piece-google-sheets",
+                        "actionName": "find_rows",
+                        "sampleData": {},
+                        "pieceVersion": "0.12.12",
+                        "propertySettings": {
+                          "auth": {
+                            "type": "MANUAL"
+                          },
+                          "sheetId": {
+                            "type": "MANUAL"
+                          },
+                          "matchCase": {
+                            "type": "MANUAL"
+                          },
+                          "columnName": {
+                            "type": "MANUAL"
+                          },
+                          "searchValue": {
+                            "type": "MANUAL"
+                          },
+                          "startingRow": {
+                            "type": "MANUAL"
+                          },
+                          "numberOfRows": {
+                            "type": "MANUAL"
+                          },
+                          "spreadsheetId": {
+                            "type": "MANUAL"
+                          },
+                          "includeTeamDrives": {
+                            "type": "MANUAL"
+                          }
+                        },
+                        "errorHandlingOptions": {
+                          "retryOnFailure": {
+                            "value": true
+                          },
+                          "continueOnFailure": {
+                            "value": false
+                          }
+                        }
+                      },
+                      "nextAction": {
+                        "name": "step_7",
+                        "skip": false,
+                        "type": "ROUTER",
+                        "valid": true,
+                        "children": [
+                          {
+                            "name": "step_3",
+                            "skip": false,
+                            "type": "PIECE",
+                            "valid": true,
+                            "settings": {
+                              "input": {
+                                "url": "https://r.jina.ai/{{step_2['item']['url']}}",
+                                "body": {},
+                                "method": "GET",
+                                "headers": {
+                                  "X-Robots-Txt": "JinaReader",
+                                  "Authorization": "Bearer {{key}}",
+                                  "X-Retain-Links": "gpt-oss",
+                                  "X-Token-Budget": "100000",
+                                  "X-Retain-Images": "none",
+                                  "X-Return-Format": "markdown",
+                                  "X-Remove-Selector": "header, .class, #id, footer, aside"
+                                },
+                                "authType": "NONE",
+                                "body_type": "none",
+                                "use_proxy": false,
+                                "authFields": {},
+                                "queryParams": {},
+                                "proxy_settings": {},
+                                "response_is_binary": false
+                              },
+                              "pieceName": "@activepieces/piece-http",
+                              "actionName": "send_request",
+                              "sampleData": {},
+                              "pieceVersion": "0.8.7",
+                              "propertySettings": {
+                                "url": {
+                                  "type": "MANUAL"
+                                },
+                                "body": {
+                                  "type": "MANUAL",
+                                  "schema": {}
+                                },
+                                "method": {
+                                  "type": "MANUAL"
+                                },
+                                "headers": {
+                                  "type": "MANUAL"
+                                },
+                                "timeout": {
+                                  "type": "MANUAL"
+                                },
+                                "authType": {
+                                  "type": "MANUAL"
+                                },
+                                "body_type": {
+                                  "type": "MANUAL"
+                                },
+                                "use_proxy": {
+                                  "type": "MANUAL"
+                                },
+                                "authFields": {
+                                  "type": "MANUAL",
+                                  "schema": {}
+                                },
+                                "failureMode": {
+                                  "type": "MANUAL"
+                                },
+                                "queryParams": {
+                                  "type": "MANUAL"
+                                },
+                                "proxy_settings": {
+                                  "type": "MANUAL",
+                                  "schema": {}
+                                },
+                                "response_is_binary": {
+                                  "type": "MANUAL"
+                                }
+                              },
+                              "errorHandlingOptions": {
+                                "retryOnFailure": {
+                                  "value": true
+                                },
+                                "continueOnFailure": {
+                                  "value": false
+                                }
+                              }
+                            },
+                            "nextAction": {
+                              "name": "step_4",
+                              "skip": false,
+                              "type": "PIECE",
+                              "valid": true,
+                              "settings": {
+                                "input": {
+                                  "url": "https://openrouter.ai/api/v1/chat/completions",
+                                  "body": {
+                                    "data": {
+                                      "model": "openrouter/sonoma-dusk-alpha",
+                                      "messages": [
+                                        {
+                                          "role": "user",
+                                          "content": "Separate the content below from the noise (noise includes dates, reference links, and other non-main content info like promotional content). Just the main contents. {{step_3['body']['data']['content']}}"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "method": "POST",
+                                  "headers": {
+                                    "Content-Type": "application/json",
+                                    "Authorization": "Bearer {{key}}"
+                                  },
+                                  "authType": "NONE",
+                                  "body_type": "json",
+                                  "use_proxy": false,
+                                  "authFields": {},
+                                  "queryParams": {},
+                                  "proxy_settings": {},
+                                  "response_is_binary": false
+                                },
+                                "pieceName": "@activepieces/piece-http",
+                                "actionName": "send_request",
+                                "sampleData": {},
+                                "pieceVersion": "0.8.7",
+                                "propertySettings": {
+                                  "url": {
+                                    "type": "MANUAL"
+                                  },
+                                  "body": {
+                                    "type": "MANUAL",
+                                    "schema": {
+                                      "data": {
+                                        "type": "JSON",
+                                        "required": true,
+                                        "displayName": "JSON Body"
+                                      }
+                                    }
+                                  },
+                                  "data": {
+                                    "type": "MANUAL"
+                                  },
+                                  "method": {
+                                    "type": "MANUAL"
+                                  },
+                                  "headers": {
+                                    "type": "MANUAL"
+                                  },
+                                  "timeout": {
+                                    "type": "MANUAL"
+                                  },
+                                  "authType": {
+                                    "type": "MANUAL"
+                                  },
+                                  "body_type": {
+                                    "type": "MANUAL"
+                                  },
+                                  "use_proxy": {
+                                    "type": "MANUAL"
+                                  },
+                                  "authFields": {
+                                    "type": "MANUAL",
+                                    "schema": {}
+                                  },
+                                  "failureMode": {
+                                    "type": "MANUAL"
+                                  },
+                                  "queryParams": {
+                                    "type": "MANUAL"
+                                  },
+                                  "proxy_settings": {
+                                    "type": "MANUAL",
+                                    "schema": {}
+                                  },
+                                  "response_is_binary": {
+                                    "type": "MANUAL"
+                                  }
+                                },
+                                "errorHandlingOptions": {
+                                  "retryOnFailure": {
+                                    "value": true
+                                  },
+                                  "continueOnFailure": {
+                                    "value": false
+                                  }
+                                }
+                              },
+                              "nextAction": {
+                                "name": "step_9",
+                                "skip": false,
+                                "type": "PIECE",
+                                "valid": true,
+                                "settings": {
+                                  "input": {
+                                    "url": "https://openrouter.ai/api/v1/chat/completions",
+                                    "body": {
+                                      "data": {
+                                        "model": "openrouter/sonoma-dusk-alpha",
+                                        "messages": [
+                                          {
+                                            "role": "user",
+                                            "content": "Summarize the key points(not necessary in list format) in the article/content below into digestible and presentable content for content repurposing. No extra title just the summarize content {{step_4['body']['choices'][0]['message']['content']}}"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "method": "POST",
+                                    "headers": {
+                                      "Content-Type": "application/json",
+                                      "Authorization": "Bearer {{Key}}"
+                                    },
+                                    "authType": "NONE",
+                                    "body_type": "json",
+                                    "use_proxy": false,
+                                    "authFields": {},
+                                    "queryParams": {},
+                                    "proxy_settings": {},
+                                    "response_is_binary": false
+                                  },
+                                  "pieceName": "@activepieces/piece-http",
+                                  "actionName": "send_request",
+                                  "sampleData": {},
+                                  "pieceVersion": "0.8.7",
+                                  "propertySettings": {
+                                    "url": {
+                                      "type": "MANUAL"
+                                    },
+                                    "body": {
+                                      "type": "MANUAL",
+                                      "schema": {
+                                        "data": {
+                                          "type": "JSON",
+                                          "required": true,
+                                          "displayName": "JSON Body"
+                                        }
+                                      }
+                                    },
+                                    "data": {
+                                      "type": "MANUAL"
+                                    },
+                                    "method": {
+                                      "type": "MANUAL"
+                                    },
+                                    "headers": {
+                                      "type": "MANUAL"
+                                    },
+                                    "timeout": {
+                                      "type": "MANUAL"
+                                    },
+                                    "authType": {
+                                      "type": "MANUAL"
+                                    },
+                                    "body_type": {
+                                      "type": "MANUAL"
+                                    },
+                                    "use_proxy": {
+                                      "type": "MANUAL"
+                                    },
+                                    "authFields": {
+                                      "type": "MANUAL",
+                                      "schema": {}
+                                    },
+                                    "failureMode": {
+                                      "type": "MANUAL"
+                                    },
+                                    "queryParams": {
+                                      "type": "MANUAL"
+                                    },
+                                    "proxy_settings": {
+                                      "type": "MANUAL",
+                                      "schema": {}
+                                    },
+                                    "response_is_binary": {
+                                      "type": "MANUAL"
+                                    }
+                                  },
+                                  "errorHandlingOptions": {
+                                    "retryOnFailure": {
+                                      "value": true
+                                    },
+                                    "continueOnFailure": {
+                                      "value": false
+                                    }
+                                  }
+                                },
+                                "nextAction": {
+                                  "name": "step_8",
+                                  "skip": false,
+                                  "type": "PIECE",
+                                  "valid": true,
+                                  "settings": {
+                                    "input": {
+                                      "auth": "{{connections['soxJyCZhAjKFGXhGwsUpe']}}",
+                                      "values": {
+                                        "A": "{{step_2['item']['date']}}",
+                                        "B": "{{step_2['item']['title']}}",
+                                        "C": "{{step_4['body']['choices'][0]['message']['content']}}",
+                                        "D": "{{step_9['body']['choices'][0]['message']['content']}}",
+                                        "E": "{{step_2['item']['url']}}",
+                                        "F": "No"
+                                      },
+                                      "sheetId": 1652584937,
+                                      "as_string": false,
+                                      "spreadsheetId": "1FSUBxCit4sOWkoyrWQ-bDnDGgruxHL5JBKTACJH3CK8",
+                                      "first_row_headers": true,
+                                      "includeTeamDrives": false
+                                    },
+                                    "pieceName": "@activepieces/piece-google-sheets",
+                                    "actionName": "insert_row",
+                                    "sampleData": {},
+                                    "pieceVersion": "0.12.12",
+                                    "propertySettings": {
+                                      "auth": {
+                                        "type": "MANUAL"
+                                      },
+                                      "values": {
+                                        "type": "MANUAL",
+                                        "schema": {
+                                          "A": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Publish Date",
+                                            "displayName": "Publish Date",
+                                            "defaultValue": ""
+                                          },
+                                          "B": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Title",
+                                            "displayName": "Title",
+                                            "defaultValue": ""
+                                          },
+                                          "C": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Content",
+                                            "displayName": "Content",
+                                            "defaultValue": ""
+                                          },
+                                          "D": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Summary",
+                                            "displayName": "Summary",
+                                            "defaultValue": ""
+                                          },
+                                          "E": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Source",
+                                            "displayName": "Source",
+                                            "defaultValue": ""
+                                          },
+                                          "F": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Posted",
+                                            "displayName": "Posted",
+                                            "defaultValue": ""
+                                          },
+                                          "G": {
+                                            "type": "SHORT_TEXT",
+                                            "required": false,
+                                            "description": "Posted Date",
+                                            "displayName": "Posted Date",
+                                            "defaultValue": ""
+                                          }
+                                        }
+                                      },
+                                      "sheetId": {
+                                        "type": "MANUAL"
+                                      },
+                                      "as_string": {
+                                        "type": "MANUAL"
+                                      },
+                                      "spreadsheetId": {
+                                        "type": "MANUAL"
+                                      },
+                                      "first_row_headers": {
+                                        "type": "MANUAL"
+                                      },
+                                      "includeTeamDrives": {
+                                        "type": "MANUAL"
+                                      }
+                                    },
+                                    "errorHandlingOptions": {
+                                      "retryOnFailure": {
+                                        "value": true
+                                      },
+                                      "continueOnFailure": {
+                                        "value": false
+                                      }
+                                    }
+                                  },
+                                  "displayName": "Insert Row"
+                                },
+                                "displayName": "OpenRouter - summary content Send HTTP request"
+                              },
+                              "displayName": "OpenRouter - extract main content Send HTTP request"
+                            },
+                            "displayName": "HTTPS - extract web content"
+                          },
+                          null
+                        ],
+                        "settings": {
+                          "branches": [
+                            {
+                              "branchName": "Branch 1",
+                              "branchType": "CONDITION",
+                              "conditions": [
+                                [
+                                  {
+                                    "operator": "LIST_IS_EMPTY",
+                                    "firstValue": "{{step_6}}"
+                                  }
+                                ]
+                              ]
+                            },
+                            {
+                              "branchName": "Otherwise",
+                              "branchType": "FALLBACK"
+                            }
+                          ],
+                          "sampleData": {},
+                          "executionType": "EXECUTE_FIRST_MATCH"
+                        },
+                        "displayName": "Router"
+                      },
+                      "displayName": "Find Rows"
+                    }
+                  },
+                  "displayName": "Put"
+                },
+                "displayName": "Addition"
+              },
+              "displayName": "HTTPS-Content Source Search"
+            },
+            {
+              "name": "step_14",
+              "skip": false,
+              "type": "PIECE",
+              "valid": true,
+              "settings": {
+                "input": {
+                  "cc": [
+                    "iadeleke001@foxholisticare.com"
+                  ],
+                  "bcc": [],
+                  "auth": "{{connections['hvOgUpoOIVc8Zn2y1LNpn']}}",
+                  "body": "The web search with Jina surpasses 10. We are currently on the {{step_12}} web search.\n\nWeb search report team.",
+                  "from": "digitalcontent31@gmail.com",
+                  "draft": false,
+                  "subject": "Web Search Reach {{step_12}} limit",
+                  "receiver": [
+                    "digitalcontent31@gmail.com"
+                  ],
+                  "reply_to": [],
+                  "body_type": "plain_text",
+                  "attachments": [],
+                  "sender_name": "Activepiece Alert"
+                },
+                "pieceName": "@activepieces/piece-gmail",
+                "actionName": "send_email",
+                "sampleData": {},
+                "pieceVersion": "0.9.4",
+                "propertySettings": {
+                  "cc": {
+                    "type": "MANUAL"
+                  },
+                  "bcc": {
+                    "type": "MANUAL"
+                  },
+                  "auth": {
+                    "type": "MANUAL"
+                  },
+                  "body": {
+                    "type": "MANUAL"
+                  },
+                  "from": {
+                    "type": "MANUAL"
+                  },
+                  "draft": {
+                    "type": "MANUAL"
+                  },
+                  "subject": {
+                    "type": "MANUAL"
+                  },
+                  "receiver": {
+                    "type": "MANUAL"
+                  },
+                  "reply_to": {
+                    "type": "MANUAL"
+                  },
+                  "body_type": {
+                    "type": "MANUAL"
+                  },
+                  "attachments": {
+                    "type": "MANUAL"
+                  },
+                  "in_reply_to": {
+                    "type": "MANUAL"
+                  },
+                  "sender_name": {
+                    "type": "MANUAL"
+                  }
+                },
+                "errorHandlingOptions": {
+                  "retryOnFailure": {
+                    "value": true
+                  },
+                  "continueOnFailure": {
+                    "value": false
+                  }
+                }
+              },
+              "displayName": "Send Email"
+            }
+          ],
+          "settings": {
+            "branches": [
+              {
+                "branchName": "check 10",
+                "branchType": "CONDITION",
+                "conditions": [
+                  [
+                    {
+                      "operator": "NUMBER_IS_LESS_THAN",
+                      "firstValue": "{{step_12}}",
+                      "secondValue": "15"
+                    }
+                  ],
+                  [
+                    {
+                      "operator": "NUMBER_IS_EQUAL_TO",
+                      "firstValue": "{{step_12}}",
+                      "secondValue": "15"
+                    }
+                  ]
+                ]
+              },
+              {
+                "branchName": "Otherwise",
+                "branchType": "FALLBACK"
+              }
+            ],
+            "sampleData": {},
+            "executionType": "EXECUTE_FIRST_MATCH"
+          },
+          "displayName": "Less than or equals to 10"
+        },
+        "displayName": "Get"
+      }
+    },
+    "valid": true,
+    "agentIds": [],
+    "connectionIds": [
+      "soxJyCZhAjKFGXhGwsUpe",
+      "hvOgUpoOIVc8Zn2y1LNpn"
+    ],
+    "schemaVersion": "7"
+  },
+  "blogUrl": ""
+}
